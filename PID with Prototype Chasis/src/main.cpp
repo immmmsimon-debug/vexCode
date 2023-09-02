@@ -39,22 +39,6 @@ competition Competition;
 #include <cmath>
 
 
-void IntakeOff1() {
-  Intake.stop();
-}
-
-void IntakeR2() {
-  Intake.setVelocity(100.0, percent);
-  Intake.spin(reverse);
-}
-
-void IntakeOff2() {
-  Intake.stop();
-}
-
-void IntakeR1() {
-  Intake.spin(forward);
-}
 
 
 
@@ -195,7 +179,7 @@ int drivePID(){
     }  else {
     leftTotalError = 0; 
     }
-    if(abs(rightError) < integralBound){
+  if(abs(rightError) < integralBound){
     rightTotalError+=rightError; 
     }  else {
     rightTotalError = 0; 
@@ -208,7 +192,8 @@ int drivePID(){
 
    double turnMotorPower = turnError * turnkP + turnDerivative * turnkD + turnTotalError * turnkI;
    //////////////////////////////////////
-
+   //Because of the way that the motor is coded in The code cannot be run on a drive train or when the Left and Right side have the same value (Error, prevError) 
+   //this will cause the error to be inaccurate since the error value can cancel out, so when we give the two side two their own error it become more accurate
    LeftMotor.spin(reverse,leftLateralMotorPower + turnMotorPower,voltageUnits::volt);
    RightMotor.spin(reverse,rightLateralMotorPower + turnMotorPower,voltageUnits::volt);
    
